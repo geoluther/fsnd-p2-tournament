@@ -19,13 +19,19 @@ CREATE TABLE players (
 
 CREATE TABLE matches (
 	match_id SERIAL primary key,
---  p1, p2, winner match player id
-	player1 integer references players(id),
-	player2 integer references players(id),
-	p1_score integer,
-	p2_score integer,
-	winner integer
+-- just need winner, loser?
+	winner_p integer references players(id),
+	loser_p integer references players(id)
 	);
 
+
+'''
+select player_id, count(matches) as matches_played
+       from matches as a, matches as b
+ where a.building = b.building
+   and a.room = b.room
+   and a.id < b.id
+ order by a.building, a.room;
+'''
 
 

@@ -62,15 +62,15 @@ def registerPlayer(name):
     """
 
     db = connect()
-    curr = db.cursor()
+    cur = db.cursor()
     #  change 'player' to 'name'
     query = "INSERT INTO players (player) VALUES (%s)"
     data = (name, )
 
-    curr.execute(query, data)
+    cur.execute(query, data)
     db.commit()
 
-    curr.close()
+    cur.close()
     db.close()
 
 
@@ -88,6 +88,26 @@ def playerStandings():
         matches: the number of matches the player has played
     """
 
+    db = connect()
+    cur = db.cursor()
+    #  change 'player' to 'name'
+    q1 = '''SELECT id, player, count(matches.winner_p) as wins, count(players.id) as matches_played
+        from players left join matches
+        on players.id = matches.winner_p
+        -- OR players.id = matches.loser_p
+        group by players.id
+        order by wins desc;
+        '''
+
+    query = "SELECT id, player FROM players;"
+
+    cur.execute(q1)
+    players = cur.fetchall()
+    print players
+
+    cur.close()
+    return players
+
 
 def reportMatch(winner, loser):
     """Records the outcome of a single match between two players.
@@ -96,6 +116,18 @@ def reportMatch(winner, loser):
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
     """
+
+    db = connect()
+    cur = db.cursor()
+    #  change 'player' to 'name'
+    query = "INSERT INTO matches (winner_p, loser_p) VALUES (%s, %s);"
+    data = (winner, loser, )
+
+    cur.execute(query, data)
+    db.commit()
+
+    cur.close()
+    db.close()
 
 
 def swissPairings():
@@ -113,5 +145,4 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
-
 
