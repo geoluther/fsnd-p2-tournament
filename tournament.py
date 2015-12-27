@@ -91,11 +91,11 @@ def playerStandings():
     db = connect()
     cur = db.cursor()
     #  change 'player' to 'name'
-    q1 = '''SELECT id, player, count(matches.winner_p) as wins, count(players.id) as matches_played
-        from players left join matches
-        on players.id = matches.winner_p
-        -- OR players.id = matches.loser_p
+    q1 = '''SELECT players.id, players.player, count(matches.winner) as wins, matches_played.played
+        from players
+        left join matches on players.id = matches.winner
         group by players.id
+        from players left join matches_played on players.id = matches_played.played
         order by wins desc;
         '''
 
@@ -120,7 +120,7 @@ def reportMatch(winner, loser):
     db = connect()
     cur = db.cursor()
     #  change 'player' to 'name'
-    query = "INSERT INTO matches (winner_p, loser_p) VALUES (%s, %s);"
+    query = "INSERT INTO matches (winner, loser) VALUES (%s, %s);"
     data = (winner, loser, )
 
     cur.execute(query, data)

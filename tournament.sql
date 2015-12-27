@@ -20,18 +20,16 @@ CREATE TABLE players (
 CREATE TABLE matches (
 	match_id SERIAL primary key,
 -- just need winner, loser?
-	winner_p integer references players(id),
-	loser_p integer references players(id)
+	winner integer references players(id),
+	loser integer references players(id)
 	);
 
-
-'''
-select player_id, count(matches) as matches_played
-       from matches as a, matches as b
- where a.building = b.building
-   and a.room = b.room
-   and a.id < b.id
- order by a.building, a.room;
-'''
+-- get rid of name
+CREATE VIEW matches_played as
+		SELECT id, count(*) as played
+        from players left join matches
+        on players.id = matches.winner OR players.id = matches.loser
+        group by players.id
+        order by played desc;
 
 
