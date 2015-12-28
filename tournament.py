@@ -90,18 +90,10 @@ def playerStandings():
 
     db = connect()
     cur = db.cursor()
-    #  change 'player' to 'name'
-    q1 = '''SELECT players.id, players.player, count(matches.winner) as wins, matches_played.played
-        from players
-        left join matches on players.id = matches.winner
-        group by players.id
-        from players left join matches_played on players.id = matches_played.played
-        order by wins desc;
-        '''
 
-    query = "SELECT id, player FROM players;"
+    query = "SELECT id, player, wins, matches from standings;"
 
-    cur.execute(q1)
+    cur.execute(query)
     players = cur.fetchall()
     print players
 
