@@ -91,7 +91,7 @@ def playerStandings():
     db = connect()
     cur = db.cursor()
 
-    query = "SELECT id, player, wins, matches from standings;"
+    query = "SELECT id, player, wins, played from results;"
 
     cur.execute(query)
     players = cur.fetchall()
