@@ -32,6 +32,12 @@ CREATE VIEW matches_wins as
         group by players.id
         order by wins desc;
 
+CREATE VIEW v_losses as
+		SELECT id, players.player, count(matches.loser) as losses
+        from players left join matches
+        on players.id = matches.loser
+        group by players.id
+        order by losses desc;
 
 -- not quite right
 CREATE VIEW matches_played as
@@ -41,17 +47,6 @@ CREATE VIEW matches_played as
 	on players.id  = matches.winner OR players.id = matches.loser
 	group by played
 	order by played desc;
-
-
---- not quite right, counting id with 0 plays as 1.
-CREATE VIEW results as
-	SELECT matches_wins.id, matches_wins.player,
-	matches_wins.wins, matches_played.played
-	from matches_wins left join matches_played
-	on matches_wins.id = matches_played.id
-	order by played desc;
-
-
 
 --- testing ---
 
@@ -78,8 +73,16 @@ CREATE VIEW win_lose as
         on matches_wins.id = matches_loss.id
         order by wins desc;
 
---- this is closer
+-- this is closer, at least shows the table right
+-- but grouping isn't working
  SELECT id, player, winner, loser
  	  from players left join matches
 	  on id = matches.winner OR players.id = matches.loser;
+
+-- this is good
+CREATE VIEW results as
+SELECT matches_wins.id, matches_wins.player,
+	   matches_wins.wins, matches_loss.losses
+	   from matches_wins
+	   left join matches_loss on matches_wins.id = matches_loss.id;
 
