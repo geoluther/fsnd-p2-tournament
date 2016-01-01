@@ -138,3 +138,17 @@ def swissPairings():
         name2: the second player's name
     """
 
+    db = connect()
+    cur = db.cursor()
+
+    query = "SELECT id1, name1, id2, name2 from pairings;"
+
+    cur.execute(query)
+    pairings = cur.fetchall()
+    print pairings
+
+    cur.close()
+    return pairings
+
+
+
