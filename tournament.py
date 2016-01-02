@@ -16,7 +16,7 @@ def deleteMatches():
     db = connect()
     cur = db.cursor()
 
-    query = "DELETE FROM matches;"
+    query = "DELETE FROM matches"
     cur.execute(query)
 
     db.commit()
@@ -63,7 +63,7 @@ def registerPlayer(name):
 
     db = connect()
     cur = db.cursor()
-    #  change 'player' to 'name'
+
     query = "INSERT INTO players (player) VALUES (%s)"
     data = (name, )
 
