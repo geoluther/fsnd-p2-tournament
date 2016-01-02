@@ -95,7 +95,7 @@ def playerStandings():
 
     cur.execute(query)
     players = cur.fetchall()
-    print players
+    # print players
 
     cur.close()
     return players
@@ -111,7 +111,7 @@ def reportMatch(winner, loser):
 
     db = connect()
     cur = db.cursor()
-    #  change 'player' to 'name'
+
     query = "INSERT INTO matches (winner, loser) VALUES (%s, %s);"
     data = (winner, loser, )
 
@@ -145,7 +145,7 @@ def swissPairings():
 
     cur.execute(query)
     pairings = cur.fetchall()
-    print pairings
+    # print pairings
 
     cur.close()
     return pairings
