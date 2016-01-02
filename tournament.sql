@@ -11,6 +11,8 @@ DROP DATABASE IF EXISTS tournament;
 
 CREATE DATABASE tournament;
 
+\c tournament;
+
 CREATE TABLE players (
 	id SERIAL primary key,
 	player TEXT
