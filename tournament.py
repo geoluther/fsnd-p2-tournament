@@ -91,6 +91,7 @@ def playerStandings():
     db = connect()
     cur = db.cursor()
 
+    # results from VIEW
     query = "SELECT id, player, wins, played from results;"
 
     cur.execute(query)
@@ -141,6 +142,7 @@ def swissPairings():
     db = connect()
     cur = db.cursor()
 
+    # pairings VIEW
     query = "SELECT id1, name1, id2, name2 from pairings;"
 
     cur.execute(query)
