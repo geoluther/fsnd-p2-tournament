@@ -51,10 +51,12 @@ SELECT matches_wins.id, matches_wins.player,
 	   left join matches_loss on matches_wins.id = matches_loss.id;
 
 
+/* rank all players */
 CREATE VIEW rankings as
 select row_number() over(order by wins desc) as rank, * from matches_wins;
 
 
+/* brackets views - split rank orders to each side by odd and even ranks */
 CREATE VIEW bracket_right as
 select row_number() over(order by wins desc) as order, * from rankings where mod(rank, 2) = 0;
 
