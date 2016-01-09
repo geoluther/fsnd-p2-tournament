@@ -25,16 +25,16 @@ def deleteMatches():
     db.close()
 
 
-    def deletePlayers():
-        """Remove all the player records from the database."""
-        db = connect()
-        cur = db.cursor()
+def deletePlayers():
+    """Remove all the player records from the database."""
+    db = connect()
+    cur = db.cursor()
 
-        query = "DELETE FROM players;"
-        cur.execute(query)
-        db.commit()
-        cur.close()
-        db.close()
+    query = "DELETE FROM players;"
+    cur.execute(query)
+    db.commit()
+    cur.close()
+    db.close()
 
 
 def countPlayers():
@@ -154,64 +154,44 @@ def swissPairings():
     return pairings
 
 
-
-def pair_odd():
-    # take odd list of players, give one player a bye
-    # use python generate pairs, not DB.
-    # which table
-    db = connect()
-    cur = db.cursor()
-
-    # pairings VIEW
-    query = "SELECT id1, name1, id2, name2 from pairings;"
-
-    cur.execute(query)
-    pairings = cur.fetchall()
-    # print pairings
-
-    cur.close()
-    return
-
+# add many players to db
 def addMultiple():
-    ''' 30 players in this list '''
-    players = ['Oneida Guajardo', 'Arvilla Cesario', \
-    'Heriberto Samora', 'Ethyl Moshier', 'Glenna Belford', \
-    'Krissy Rainey', 'Hertha Bence', 'Verlie Christofferso', \
-    'Paula Jenson', 'Carlee Merriam', 'Krystin Critchlow', \
-    'Marcela Aziz', 'Joseph Hooton', 'Marylouise Liechty', \
-    'Colette Kistner', 'Marita Simonsen', 'Nella Hutcheson', \
-    'Almeta Gonsalves', 'Vanda Barber', 'Mariano Rooney', \
-    'Buffy Mcpeak', 'Flossie Borey', 'Iraida Moudy', \
-    'Valene Boan', 'Valery Holahan', 'Eugenie Hackney', \
-    'Kimbery Spaeth', 'Ali Shelby', 'Kassandra Smock', 
-    'Galina Swart', 'Odd Man Out']
+    """31 players in this list"""
+
+    players = ( ['Oneida Guajardo', 'Arvilla Cesario',
+    'Heriberto Samora', 'Ethyl Moshier', 'Glenna Belford',
+    'Krissy Rainey', 'Hertha Bence', 'Verlie Christofferso',
+    'Paula Jenson', 'Carlee Merriam', 'Krystin Critchlow',
+    'Marcela Aziz', 'Joseph Hooton', 'Marylouise Liechty',
+    'Colette Kistner', 'Marita Simonsen', 'Nella Hutcheson',
+    'Almeta Gonsalves', 'Vanda Barber', 'Mariano Rooney',
+    'Buffy Mcpeak', 'Flossie Borey', 'Iraida Moudy',
+    'Valene Boan', 'Valery Holahan', 'Eugenie Hackney',
+    'Kimbery Spaeth', 'Ali Shelby', 'Kassandra Smock',
+    'Galina Swart', 'Odd Man Out'] )
 
     for player in players:
         registerPlayer(player)
 
 
 def playGames():
-    """ pick on random winner in a pair
-    we only care about ID indexes p1: 0, p2: 2
-    if true, leave pair as is, swap if false
+    """Choose a random winner in each pairing
 
-    if odd numbers of players are given, the last player
-    gets automatic win.
+    If odd numbers of players are given, the last player
+    is always given automatic win.
     """
     pairs = swissPairings();
-    print pairs
 
     for players in pairs:
-        print [players[0], players[2]]
-
+        # ID indexes in pairs: p1 = players[0], p2 = players[2]
+        # if rand = 1 or no p2, p1 wins
         if (random.randint(0, 1) == 1) or (players[2] == ''):
             winner = players[0]
             loser = players[2]
         else:
             winner = players[2]
             loser = players[0]
-        
-        print [winner, loser]
+
         reportMatch(winner, loser)
 
 
