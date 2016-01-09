@@ -153,6 +153,8 @@ def swissPairings():
     return pairings
 
 
+# xtra credit
+
 # add many players to db
 def addMultiple():
     """31 players in this list"""
