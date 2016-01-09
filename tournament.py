@@ -153,4 +153,43 @@ def swissPairings():
     return pairings
 
 
+# add many players to db
+def addMultiple():
+    """31 players in this list"""
+
+    players = ( ['Oneida Guajardo', 'Arvilla Cesario',
+    'Heriberto Samora', 'Ethyl Moshier', 'Glenna Belford',
+    'Krissy Rainey', 'Hertha Bence', 'Verlie Christofferso',
+    'Paula Jenson', 'Carlee Merriam', 'Krystin Critchlow',
+    'Marcela Aziz', 'Joseph Hooton', 'Marylouise Liechty',
+    'Colette Kistner', 'Marita Simonsen', 'Nella Hutcheson',
+    'Almeta Gonsalves', 'Vanda Barber', 'Mariano Rooney',
+    'Buffy Mcpeak', 'Flossie Borey', 'Iraida Moudy',
+    'Valene Boan', 'Valery Holahan', 'Eugenie Hackney',
+    'Kimbery Spaeth', 'Ali Shelby', 'Kassandra Smock',
+    'Galina Swart', 'Odd Man Out'] )
+
+    for player in players:
+        registerPlayer(player)
+
+
+def playGames():
+    """Choose a random winner in each pairing
+
+    If odd numbers of players are given, the last player
+    is always given automatic win.
+    """
+    pairs = swissPairings();
+
+    for players in pairs:
+        # ID indexes in pairs: p1 = players[0], p2 = players[2]
+        # if rand = 1 or no p2, p1 wins
+        if (random.randint(0, 1) == 1) or (players[2] == ''):
+            winner = players[0]
+            loser = players[2]
+        else:
+            winner = players[2]
+            loser = players[0]
+
+        reportMatch(winner, loser)
 
