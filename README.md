@@ -4,7 +4,9 @@
 
 To test functions, run `$ python tournament_test.py`
 
-# Xtra Credit:
+## Xtra Credit
+
+in *tourn_xtra.py*
 
 `addMultiple()`
 
