@@ -26,7 +26,7 @@ CREATE TABLE matches (
 	);
 
 
-/* VIEWS, or the heavy lifiting */
+/* VIEWS do data manipulation */
 
 CREATE VIEW matches_wins as
 		SELECT id, players.player, count(matches.winner) as wins
@@ -51,20 +51,27 @@ SELECT matches_wins.id, matches_wins.player,
 	   left join matches_loss on matches_wins.id = matches_loss.id;
 
 
-/* rank all players */
+/* rank all players by wins*/
 CREATE VIEW rankings as
-select row_number() over(order by wins desc) as rank, * from matches_wins;
+select row_number() over(order by wins desc) as rank,
+* from matches_wins;
 
 
-/* brackets views - split rank orders to each side by odd and even ranks */
+/* Bracket views - split rank orders to each side by odd and even ranks
+   Place odd ranked players  (1, 3, 5, etc )in left bracket, even in right.
+*/
+
 CREATE VIEW bracket_right as
-select row_number() over(order by wins desc) as order, * from rankings where mod(rank, 2) = 0;
+select row_number() over(order by wins desc) as order,
+* from rankings where mod(rank, 2) = 0;
 
 
 CREATE VIEW bracket_left as
-select row_number() over(order by wins desc) as order, * from rankings where mod(rank, 2) = 1;
+select row_number() over(order by wins desc) as order,
+* from rankings where mod(rank, 2) = 1;
 
 
+/* Generate pairings by putting left and right bracket in adjacent columns */
 CREATE VIEW pairings as
 select l.order,
 l.wins as lwins, l.id as id1, l.player as name1,
