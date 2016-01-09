@@ -64,6 +64,7 @@ def registerPlayer(name):
     db = connect()
     cur = db.cursor()
 
+    # use string formatting for query params
     query = "INSERT INTO players (player) VALUES (%s)"
     data = (name, )
 
@@ -96,7 +97,6 @@ def playerStandings():
 
     cur.execute(query)
     players = cur.fetchall()
-    # print players
 
     cur.close()
     return players
@@ -113,6 +113,7 @@ def reportMatch(winner, loser):
     db = connect()
     cur = db.cursor()
 
+    # use string formatting for query params
     query = "INSERT INTO matches (winner, loser) VALUES (%s, %s);"
     data = (winner, loser, )
 
@@ -142,12 +143,11 @@ def swissPairings():
     db = connect()
     cur = db.cursor()
 
-    # pairings VIEW
+    # use pairings VIEW to get pairings
     query = "SELECT id1, name1, id2, name2 from pairings;"
 
     cur.execute(query)
     pairings = cur.fetchall()
-    # print pairings
 
     cur.close()
     return pairings
