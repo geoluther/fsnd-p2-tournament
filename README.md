@@ -1,10 +1,10 @@
 ## FSND Project 2: tournament pairings
 
-## Usage:
+### Usage:
 
 To test functions, run `$ python tournament_test.py`
 
-## Xtra Credit - Odd Number of Players
+### Xtra Credit - Odd Number of Players
 
 in *tournament.py*
 
