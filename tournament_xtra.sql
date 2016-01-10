@@ -17,7 +17,8 @@ CREATE DATABASE tournament;
 
 CREATE TABLE players (
 	id SERIAL primary key,
-	player TEXT
+	player TEXT,
+	byes integer default 0
 	);
 
 CREATE TABLE matches (
@@ -29,7 +30,8 @@ CREATE TABLE matches (
 /* VIEWS do data manipulation */
 
 CREATE VIEW matches_wins as
-		SELECT id, players.player, count(matches.winner) as wins
+		SELECT id, players.player, count(matches.winner) as wins,
+		byes
         from players left join matches
         on players.id = matches.winner
         group by players.id
@@ -37,7 +39,8 @@ CREATE VIEW matches_wins as
 
 
 CREATE VIEW matches_loss as
-		SELECT id, player, count(matches.loser) as losses
+		SELECT id, player, count(matches.loser) as losses,
+		byes
         from players left join matches
         on players.id = matches.loser
         group by players.id
@@ -46,9 +49,11 @@ CREATE VIEW matches_loss as
 
 CREATE VIEW results as
 SELECT matches_wins.id, matches_wins.player,
-	   matches_wins.wins, matches_loss.losses, (matches_wins.wins + matches_loss.losses) as played
+	   matches_wins.wins, matches_loss.losses,
+	   matches_wins.byes, (matches_wins.wins + matches_loss.losses) as played
 	   from matches_wins
-	   left join matches_loss on matches_wins.id = matches_loss.id;
+	   left join matches_loss on matches_wins.id = matches_loss.id
+	   order by matches_wins.wins desc;
 
 
 /* rank all players by wins*/
@@ -80,3 +85,9 @@ from bracket_left as l
 left join bracket_right as r on l.order = r.order;
 
 
+CREATE VIEW pairings_with_byes as
+select l.order,
+l.wins as lwins, l.id as id1, l.player as name1, l.byes as p1_byes,
+r.wins as rwins, r.id as id2, r.player as name2, r.byes as p2_byes
+from bracket_left as l
+left join bracket_right as r on l.order = r.order;
