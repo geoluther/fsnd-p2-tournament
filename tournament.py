@@ -4,17 +4,25 @@
 #
 
 import psycopg2
+import random
 
 
 def connect():
     """Connect to the PostgreSQL database.  Returns a database connection."""
-    return psycopg2.connect("dbname=tournament")
+    # return psycopg2.connect("dbname=tournament")
+
+    try:
+        db = psycopg2.connect("dbname={}".format("tournament"))
+        cursor = db.cursor()
+        return db, cursor
+    except:
+        print("error, could not connect to db")
+
 
 
 def deleteMatches():
     """Remove all the match records from the database."""
-    db = connect()
-    cur = db.cursor()
+    db, cur = connect()
 
     query = "DELETE FROM matches"
     cur.execute(query)
@@ -26,8 +34,7 @@ def deleteMatches():
 
 def deletePlayers():
     """Remove all the player records from the database."""
-    db = connect()
-    cur = db.cursor()
+    db, cur = connect()
 
     query = "DELETE FROM players;"
     cur.execute(query)
@@ -38,13 +45,13 @@ def deletePlayers():
 
 def countPlayers():
     """Returns the number of players currently registered."""
-    db = connect()
-    cur = db.cursor()
+    db, cur = connect()
     query = "SELECT count(*) as num FROM players;"
     cur.execute(query)
 
-    players = cur.fetchall()
-    count = players[0][0]
+    # fetchone, since query returns just one row
+    players = cur.fetchone()
+    count = players[0]
     cur.close()
     db.close()
 
@@ -61,8 +68,7 @@ def registerPlayer(name):
       name: the player's full name (need not be unique).
     """
 
-    db = connect()
-    cur = db.cursor()
+    db, cur = connect()
 
     # use string formatting for query params
     query = "INSERT INTO players (player) VALUES (%s)"
@@ -89,11 +95,10 @@ def playerStandings():
         matches: the number of matches the player has played
     """
 
-    db = connect()
-    cur = db.cursor()
+    db, cur = connect()
 
     # results from VIEW
-    query = "SELECT id, player, wins, played from results;"
+    query = "SELECT id, player, wins, played from results order by wins desc;"
 
     cur.execute(query)
     players = cur.fetchall()
@@ -110,8 +115,7 @@ def reportMatch(winner, loser):
       loser:  the id number of the player who lost
     """
 
-    db = connect()
-    cur = db.cursor()
+    db, cur = connect()
 
     # use string formatting for query params
     query = "INSERT INTO matches (winner, loser) VALUES (%s, %s);"
@@ -140,8 +144,7 @@ def swissPairings():
         name2: the second player's name
     """
 
-    db = connect()
-    cur = db.cursor()
+    db, cur = connect()
 
     # use pairings VIEW to get pairings
     query = "SELECT id1, name1, id2, name2 from pairings;"

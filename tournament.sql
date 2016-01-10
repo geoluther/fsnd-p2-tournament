@@ -15,7 +15,7 @@ CREATE DATABASE tournament;
 
 CREATE TABLE players (
 	id SERIAL primary key,
-	player TEXT
+	player TEXT,
 	);
 
 
@@ -24,6 +24,7 @@ CREATE TABLE matches (
 	winner integer references players(id),
 	loser integer references players(id)
 	);
+
 
 
 /* VIEWS do data manipulation */

@@ -2,6 +2,8 @@
 
 ### Usage:
 
+In order to first create the database and its schema please execute the following commands from your system's command line: `$ psql -f tournament.sql`
+
 To test functions, run `$ python tournament_test.py`
 
 ### Xtra Credit - Odd Number of Players
