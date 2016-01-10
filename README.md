@@ -6,6 +6,6 @@ In order to first create the database and its schema, execute the following comm
 
 `$ psql -f tournament.sql`
 
-To test functions, run
+To test functions, run:
 
 `$ python tournament_test.py`
