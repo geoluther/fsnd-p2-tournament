@@ -2,6 +2,10 @@
 
 ### Usage:
 
-In order to first create the database and its schema, execute the following commands from your system's command line: `$ psql -f tournament.sql`
+In order to first create the database and its schema, execute the following commands from your system's command line:
 
-To test functions, run `$ python tournament_test.py`
+`$ psql -f tournament.sql`
+
+To test functions, run
+
+`$ python tournament_test.py`
