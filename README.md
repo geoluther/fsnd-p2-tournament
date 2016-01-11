@@ -13,13 +13,9 @@ To test functions, run:
 
 ### Extra Credit:
 
-use:
+use: `$ psql -f tournament_xtra.sql`
 
-`$ psql -f tournament_xtra.sql`
-
-To test functions, run:
-
-`$ python test_xtra.py`
+To test functions, run: `$ python test_xtra.py`
 
 Code accounting for odd number of players and to allow byes included in *tourn_xtra.py* and
 *tournament_xtra.sql*
