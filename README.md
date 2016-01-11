@@ -21,7 +21,7 @@ To test functions, run:
 
 `$ python test_xtra.py`
 
-Code accouting for odd number of players and to allow byes included in *tourn_xtra.py* and
+Code accounting for odd number of players and to allow byes included in *tourn_xtra.py* and
 *tournament_xtra.sql*
 
 in *tourn_xtra.py*, the function `playGames()`:
