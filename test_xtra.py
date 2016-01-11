@@ -143,7 +143,7 @@ def testGames():
     print "Rank, ID, Player, Wins, Byes"
     rankings = showRWB()
     for player in rankings:
-        print list(player)
+        print player
 
 
 
