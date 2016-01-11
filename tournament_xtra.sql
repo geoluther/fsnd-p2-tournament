@@ -61,6 +61,9 @@ CREATE VIEW rankings as
 select row_number() over(order by wins desc) as rank,
 * from matches_wins;
 
+CREATE VIEW rankings_with_byes as
+select row_number() over(order by wins desc) as rank,
+* from matches_wins;
 
 /* Bracket views - split rank orders to each side by odd and even ranks
    Place odd ranked players  (1, 3, 5, etc )in left bracket, even in right.
