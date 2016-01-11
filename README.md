@@ -13,9 +13,6 @@ To test functions, run:
 
 ### Extra Credit:
 
-Code accouting for odd number of players and to allow byes included in *tourn_xtra.py* and
-*tournament_xtra.sql*
-
 use:
 
 `$ psql -f tournament_xtra.sql`
@@ -23,6 +20,9 @@ use:
 To test functions, run:
 
 `$ python test_xtra.py`
+
+Code accouting for odd number of players and to allow byes included in *tourn_xtra.py* and
+*tournament_xtra.sql*
 
 in *tourn_xtra.py*, the function `playGames()`:
 - first checks for an odd number of pairs
