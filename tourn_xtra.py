@@ -193,7 +193,8 @@ def playGames():
     odd_players = oddPair(last_pair)
 
     # if odd players, and last player had a bye
-    # regen pairs
+    # generate pairs, could be implemented without
+    # need for swissPairings() above tho...
     if odd_players and hasBye(last_pair[0]):
         pairs = regenPairs()
 
@@ -262,10 +263,10 @@ def regenPairs():
     if len(right) == len(left) - 1:
         right.append((None, None, None, None))
 
-    # combine the tuples
-    pairings = [(left[i] + right[i]) for i in xrange(len(left)) ]
+    # combine left and right sides of pairings
+    pairings = [ (left[i] + right[i]) for i in xrange(len(left)) ]
 
-    # too much data in pairings, simplify tuples
+    # reformat pairings to what playGames() expects
     # return [ (id1, name1, id1, name2), ... ]
     pairs = [(i[0], i[1], i[4], i[5]) for i in pairings]
     return pairs
@@ -274,14 +275,16 @@ def regenPairs():
 def re_sort(rank_file):
     # don't change rank_file
     ranks =  list(rank_file)
-    last = ranks.pop()
+    last_player = ranks.pop()
     ranks.reverse()
 
     for i in range(len(ranks)):
         if ranks[i][-1] == 0:
+            # swap player with a bye to one without
             give_bye = ranks[i]
-            ranks[i] = last
+            ranks[i] = last_player
             break
+
     ranks.reverse()
     ranks.append(give_bye)
 
@@ -289,6 +292,7 @@ def re_sort(rank_file):
 
 
 def oddPair(pair):
+    """ return true if only 1 player i pair"""
     return pair[-1] == None
 
 
@@ -308,6 +312,7 @@ def hasBye(id):
 
 
 def showRWB():
+    """utility function for testing and data verification only"""
     db, cur = connect()
 
     # fields in rankings_with_byes: rank, id, player, wins, byes
